@@ -1,0 +1,123 @@
+server:
+
+ 
+
+  port: 8999
+
+ 
+
+ 
+
+ 
+
+eureka:
+
+ 
+
+  instance:
+
+ 
+
+    hostname: localhost  
+
+ 
+
+ 
+
+ 
+
+spring:
+
+ 
+
+  application:
+
+ 
+
+    name: Gateway_API_Service
+
+ 
+
+    
+
+ 
+
+  cloud:
+
+ 
+
+    gateway:
+
+ 
+
+      routes:
+
+ 
+
+ 
+
+ 
+
+        - id: Product-service
+
+ 
+
+          uri: lb://Product-service
+
+ 
+
+          predicates:
+
+ 
+
+            - Path=/**
+
+          filters:
+
+              - name: CircuitBreaker
+
+                args:
+
+                  name: Product-service
+
+                  fallbackuri: forward:/productServiceCallback
+
+                  
+
+        - id: Customercare-service
+
+ 
+
+          uri: lb://Customercare-service
+
+ 
+
+          predicates:
+
+ 
+
+            - Path=/ccs/**
+
+ 
+
+            
+
+ 
+
+        - id: Shipping-service
+
+ 
+
+          uri: lb://Shipping-service
+
+ 
+
+          predicates:
+
+ 
+
+            - Path=/sss/**
+
+ 
+
+           
